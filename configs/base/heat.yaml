@@ -1,0 +1,48 @@
+model:
+    train_mode: normal
+    inference_mode: normal
+    correlation: 0.8
+    model_name: unet
+    lr: 1.0e-5
+    fno:
+        in_channels: 1
+        out_channels: 1
+        modes: 32
+        width: 64
+        cond_channels: 64
+        num_layers: 5
+        time_scale: 10.0
+        cond_scale: 10.0
+    unet:
+        n_input_scalar_components: 1
+        n_input_vector_components: 0
+        n_output_scalar_components: 1
+        n_output_vector_components: 0
+        time_history: 1
+        time_future: 1
+        hidden_channels: 64
+        embedding_dim: 64
+        ch_mults: [1, 2 ,4]
+        use_scale_shift_norm: True
+        time_scale: 10.0
+        cond_scale: 10.0
+
+data:
+    dataset:
+        train_path: /home/ayz2/data_gen_old/pde-context/1D/train/Heat_4096.h5
+        valid_path: /home/ayz2/data_gen_old/pde-context/1D/valid/Heat_256.h5
+        pde: heat
+        resolution: [125, 100]
+    num_workers: 16
+    batch_size: 64
+
+training:
+    seed: 42
+    devices: 1
+    accelerator: gpu
+    check_val_every_n_epoch: 10
+    max_epochs: 250
+    default_root_dir: logs/
+    project: residual_pdes_final
+    wandb_mode: online
+    checkpoint: null
