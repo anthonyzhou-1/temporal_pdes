@@ -2,7 +2,7 @@
 Official implementation of Framing Neural Surrogates as Temporal Derivative Approximators. [(Paper)]()
 
 
-![Text-Conditioned Samples](./pics/text_examples.png)
+![Neural Surrogate Prediction Frameworks](./pics/figure.png)
 
 
 ## Requirements
