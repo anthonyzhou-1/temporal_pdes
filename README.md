@@ -1,8 +1,8 @@
-# Framing Neural Surrogates as Temporal Derivative Approximators
-Official implementation of Framing Neural Surrogates as Temporal Derivative Approximators. [(Paper)]()
+# Predicting Change, not States: An Alternate Framework for Neural PDE Surrogates 
+Official implementation of Predicting Change, not States: An Alternate Framework for Neural PDE Surrogates. [(Paper)]()
 
 
-![Neural Surrogate Prediction Frameworks](./pics/figures.png)
+![Neural Surrogate Prediction Frameworks](./pics/overview.png)
 
 
 ## Requirements
