@@ -30,6 +30,10 @@ Data is organized as:
     - coefficients [alpha, beta, gamma, etc.]: coefficients of the solved PDE solution, in shape [num_samples, coord_dim]
 ```
 
+Advection and Heat data are generated from [Masked Autoencoder are PDE Learners](https://github.com/anthonyzhou-1/mae-pdes), and KS data are generated from [Lie Point Symmetry Data Augmentation for Neural PDE Solvers](https://github.com/brandstetter-johannes/LPSDA). 
+
+Burgers data are generated from [Masked Autoencoder are PDE Learners](https://github.com/anthonyzhou-1/mae-pdes), and NS data are generated from Fourier Neural Operator for Parametric Partial Differential Equations (repo no longer exists).
+
 ## Training
 Train script will expect a logging directory, paths to the dataset, and a WandB instance.
 
