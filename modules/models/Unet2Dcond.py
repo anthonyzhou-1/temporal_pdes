@@ -47,8 +47,8 @@ class ResidualBlock(nn.Module):
         else:
             raise NotImplementedError(f"Activation {activation} not implemented")
 
-        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=(3, 3), padding=(1, 1))
-        self.conv2 = zero_module(nn.Conv2d(out_channels, out_channels, kernel_size=(3, 3), padding=(1, 1)))
+        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=(3, 3), padding=(1, 1), padding_mode="circular")
+        self.conv2 = zero_module(nn.Conv2d(out_channels, out_channels, kernel_size=(3, 3), padding=(1, 1)), padding_mode="circular")
         # If the number of input channels is not equal to the number of output channels we have to
         # project the shortcut connection
         if in_channels != out_channels:
@@ -380,7 +380,7 @@ class Unet2D_cond(nn.Module):
         if use1x1:
             self.image_proj = nn.Conv2d(insize, n_channels, kernel_size=1)
         else:
-            self.image_proj = nn.Conv2d(insize, n_channels, kernel_size=(3, 3), padding=(1, 1))
+            self.image_proj = nn.Conv2d(insize, n_channels, kernel_size=(3, 3), padding=(1, 1), padding_mode="circular")
 
         # #### First half of U-Net - decreasing resolution
         down = []
@@ -470,7 +470,7 @@ class Unet2D_cond(nn.Module):
         if use1x1:
             self.final = zero_module(nn.Conv2d(in_channels, out_channels, kernel_size=1))
         else:
-            self.final = zero_module(nn.Conv2d(in_channels, out_channels, kernel_size=(3, 3), padding=(1, 1)))
+            self.final = zero_module(nn.Conv2d(in_channels, out_channels, kernel_size=(3, 3), padding=(1, 1), padding_mode="circular"))
 
         self.cond_channels = embedding_dim # different name 
         self.emb_in = nn.Linear(self.cond_channels*(1+self.cond_dim), self.cond_channels)

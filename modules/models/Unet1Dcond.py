@@ -20,9 +20,9 @@ def conv_layer(
     if padding < 0:
         padding = kernel_size // 2 if isinstance(kernel_size, int) else (kernel_size[0] // 2, kernel_size[1] // 2)
     if n_dims == 1:
-        return nn.Conv1d(c_in, c_out, kernel_size=kernel_size, stride=stride, padding=padding, dilation=dilation)
+        return nn.Conv1d(c_in, c_out, kernel_size=kernel_size, stride=stride, padding=padding, dilation=dilation, padding_mode="circular")
     elif n_dims == 2:
-        return nn.Conv2d(c_in, c_out, kernel_size=kernel_size, stride=stride, padding=padding, dilation=dilation)
+        return nn.Conv2d(c_in, c_out, kernel_size=kernel_size, stride=stride, padding=padding, dilation=dilation, padding_mode="circular")
     else:
         raise NotImplementedError(f"n_dims {n_dims} not implemented")
 
