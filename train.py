@@ -79,11 +79,7 @@ def main(args):
     
     datamodule = PDEDataModule(dataconfig=dataconfig)
     
-    if dataconfig["dataset"]["pde"] == "cylinder_2d":
-        from modules.cylinder_module import CylinderModule
-        model = CylinderModule(modelconfig=modelconfig,
-                               normalizer=datamodule.normalizer)
-    elif modelconfig["train_mode"] == "refiner":
+    if modelconfig["train_mode"] == "refiner":
         from modules.refiner_module import RefinerModule
         model = RefinerModule(modelconfig=modelconfig)
     else:
