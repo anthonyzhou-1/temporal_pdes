@@ -13,7 +13,8 @@ class PDEDataset1D(Dataset):
                  split: str,
                  resolution: Tuple[int, int],
                  norm_dims: bool = False,
-                 norm_vars: bool = True) -> None:
+                 norm_vars: bool = True,
+                 start: float = 0.0) -> None:
         """Initialize the dataset object
         Args:
             path: path to dataset
@@ -35,6 +36,7 @@ class PDEDataset1D(Dataset):
         self.norm_vars = norm_vars
         data = f[self.split]
         self.n_samples = len(data['u'])
+        self.start = start
 
         self.variables, self.var_range = self.get_variables(self.pde)
         self.attrs = ['u'] + self.variables
@@ -51,12 +53,17 @@ class PDEDataset1D(Dataset):
         if len(self.x.shape) > 1:
             self.x = self.x[0]
 
+        self.start_t = int(self.start * nt_data) # start time index
+        self.t = self.t[self.start_t:] # start from start
+
         self.t = self.t - self.t[0] # start time from zero
         self.x = self.x - self.x[0] # start x from zero
 
         nt_data = self.t.shape[0]
         self.t_downsample = int(nt_data / self.nt) 
         self.t = self.t[::self.t_downsample] # downsample time
+
+        print(f"t is starting from {self.t[0]}, at step {self.start_t} of the original data")
 
         # normalize time and x. Optional, but will change dt and dx
         if self.norm_dims:

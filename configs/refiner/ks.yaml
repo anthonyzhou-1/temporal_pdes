@@ -38,7 +38,8 @@ data:
         train_path: /home/ayz2/data_gen_old/pde-context/1D/train/KS_train_4096_400.h5
         valid_path: /home/ayz2/data_gen_old/pde-context/1D/valid/KS_valid_256_400.h5
         pde: ks
-        resolution: [400, 200] # nt, nx
+        resolution: [200, 200] # nt, nx
+        start: 0.5 # discard first 50% of data for burn-in
     num_workers: 16
     batch_size: 64
 
