@@ -29,11 +29,13 @@ class PDEDataModule(L.LightningDataModule):
             self.train_dataset = PDEDataset1D(path=self.dataset_config["train_path"],
                                             pde=self.dataset_config["pde"],
                                             split="train",
-                                            resolution=self.dataset_config["resolution"],)
+                                            resolution=self.dataset_config["resolution"],
+                                            start = self.dataset_config["start"] if "start" in self.dataset_config else 0.0)
             self.val_dataset = PDEDataset1D(path=self.dataset_config["valid_path"],
                                             pde=self.dataset_config["pde"],
                                             split="valid",
-                                            resolution=self.dataset_config["resolution"],)
+                                            resolution=self.dataset_config["resolution"],
+                                            start = self.dataset_config["start"] if "start" in self.dataset_config else 0.0)
 
     def prepare_data(self):
         # download, split, etc...
