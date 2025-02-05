@@ -43,6 +43,6 @@ training:
     check_val_every_n_epoch: 10
     max_epochs: 250
     default_root_dir: logs/
-    project: residual_pdes_final
+    project: residual_pdes_rev
     wandb_mode: online
     checkpoint: null
