@@ -55,9 +55,10 @@ def main(args):
     now = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
     seed_everything(seed)
     torch.set_float32_matmul_precision("high")
+    description = args.description if args.description is not None else ""
 
     res_string = f"{dataconfig['dataset']['resolution'][0]}" if "resolution" in dataconfig["dataset"] else f"{dataconfig['dataset']['time_horizon']}"
-    name = modelconfig["model_name"] + "_" + dataconfig["dataset"]["pde"] + "_" + res_string + "_" + modelconfig["train_mode"] + "_" + modelconfig["inference_mode"] + now
+    name = modelconfig["model_name"] + "_" + dataconfig["dataset"]["pde"] + "_" + res_string + "_" + modelconfig["train_mode"] + "_" + modelconfig["inference_mode"] + "_" + description + "_" + "rev" + "_" + now
     wandb_logger = WandbLogger(project=trainconfig["project"],
                                name=name,
                                mode=trainconfig["wandb_mode"])
@@ -114,6 +115,7 @@ if __name__ == "__main__":
     parser.add_argument('--wandb_mode', default=None)
     parser.add_argument('--checkpoint', default=None)
     parser.add_argument('--nt', default=None)
+    parser.add_argument('--description', default=None)
     args = parser.parse_args()
 
     main(args)
