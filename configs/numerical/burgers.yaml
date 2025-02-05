@@ -48,6 +48,6 @@ training:
     log_every_n_steps: 64
     max_epochs: 500
     default_root_dir: logs/
-    project: residual_pdes
+    project: residual_pdes_final
     wandb_mode: online
     checkpoint: null
