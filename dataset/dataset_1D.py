@@ -117,6 +117,8 @@ class PDEDataset1D(Dataset):
 
         if self.pde == "heat":
             u = torch.flip(u, [0]) # flip along time axis since mistake in data generation
+
+        u = u[self.start_t:]
         u = u[::self.t_downsample] # truncate to nt by taking every t_downsample
 
         return_dict = {"u": u, "cond": cond, "dx": self.dx, "dt": self.dt, "x": self.x, "t": self.t}
