@@ -20,8 +20,8 @@ model:
         n_output_vector_components: 0
         time_history: 1
         time_future: 1
-        hidden_channels: 64
-        embedding_dim: 64
+        hidden_channels: 32
+        embedding_dim: 32
         ch_mults: [1, 2 ,4]
         use_scale_shift_norm: True
         time_scale: 10.0
