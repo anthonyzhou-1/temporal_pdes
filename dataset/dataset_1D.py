@@ -53,7 +53,7 @@ class PDEDataset1D(Dataset):
         if len(self.x.shape) > 1:
             self.x = self.x[0]
 
-        self.start_t = int(self.start * nt_data) # start time index
+        self.start_t = int(self.start * self.t.shape[0]) # start time index
         self.t = self.t[self.start_t:] # start from start
 
         self.t = self.t - self.t[0] # start time from zero
