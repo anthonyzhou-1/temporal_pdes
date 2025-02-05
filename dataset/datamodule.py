@@ -12,7 +12,7 @@ class PDEDataModule(L.LightningDataModule):
         self.num_workers = dataconfig["num_workers"]
         self.pde = self.dataset_config["pde"]
 
-        if self.pde == "burgers_2d" or self.pde == "ns_2d": 
+        if self.pde == "burgers_2d" or self.pde == "ns_2d" or self.pde == "km_flow": 
             from dataset.dataset_2D import PDEDataset2D
             self.train_dataset = PDEDataset2D(path = self.dataset_config["train_path"],
                                                 pde = self.dataset_config["pde"],
@@ -24,20 +24,6 @@ class PDEDataModule(L.LightningDataModule):
                                             split = "valid",
                                             resolution = self.dataset_config["resolution"],
                                             start = self.dataset_config["start"] if "start" in self.dataset_config else 0.0)
-        elif self.pde == "cylinder_2d":
-            from dataset.cylinder import CylinderMeshDataset
-            from dataset.normalizer import Normalizer
-            normalizer_config = self.data_config["normalizer"]
-            self.train_dataset = CylinderMeshDataset(path=self.dataset_config["train_path"],
-                                                        time_horizon=self.dataset_config["time_horizon"],
-                                                        time_start=self.dataset_config["time_start"],
-                                                        idx_path=self.dataset_config["train_idx_path"])
-            self.val_dataset = CylinderMeshDataset(path=self.dataset_config["valid_path"],
-                                                        time_horizon=self.dataset_config["time_horizon"],
-                                                        time_start=self.dataset_config["time_start"],
-                                                        idx_path=self.dataset_config["valid_idx_path"])
-            self.normalizer = Normalizer(dataset=self.train_dataset,
-                                        **normalizer_config)
         else:
             from dataset.dataset_1D import PDEDataset1D
             self.train_dataset = PDEDataset1D(path=self.dataset_config["train_path"],
