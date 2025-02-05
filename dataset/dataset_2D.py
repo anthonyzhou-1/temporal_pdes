@@ -67,8 +67,13 @@ class PDEDataset2D(Dataset):
         print(f"t is starting from {self.t[0]}, at step {self.start_t} of the original data")
         self.t = self.t - self.t[0] # start time from zero
         self.dt = self.t[1] - self.t[0]
-        self.dx = self.x[0, 0, 1] - self.x[0, 0, 0]
-        self.dy = self.x[1, 1, 0] - self.x[1, 0, 0]
+
+        if pde == "km_flow": # (nx ny 2)
+            self.dx = self.x[1, 0, 0] - self.x[0, 0, 0]
+            self.dy = self.x[0, 1, 1] - self.x[0, 0, 1]
+        else: # (2 nx ny)
+            self.dx = self.x[0, 0, 1] - self.x[0, 0, 0]
+            self.dy = self.x[1, 1, 0] - self.x[1, 0, 0]
 
         self.nt = len(self.t)
 
@@ -87,6 +92,9 @@ class PDEDataset2D(Dataset):
                     'cx': [0.5, 1.0],
                     'cy': [0.5, 1.0]}
         elif pde == "ns_2d":
+            variables = [] # no cond
+            ranges = {}
+        elif pde == "km_flow":
             variables = [] # no cond
             ranges = {}
         else:
