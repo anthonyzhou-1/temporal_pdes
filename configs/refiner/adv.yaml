@@ -3,7 +3,7 @@ model:
     inference_mode: refiner
     correlation: 0.8
     model_name: unet
-    lr: 1.0e-4
+    lr: 1.0e-5
     num_refinement_steps: 3
     min_noise_std: 4.0e-7
     fno:
