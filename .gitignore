@@ -6,3 +6,4 @@ __pycache__/
 **/assets
 **.txt
 **.sh
+**/numerical_pf

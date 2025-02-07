@@ -1,10 +1,9 @@
 model:
-    train_mode: forward_difference
-    inference_mode: forward_euler
+    train_mode: richardson_extrapolation
+    inference_mode: rk4
     correlation: 0.8
     model_name: unet2d
     lr: 1.0e-5
-    k: 2
     fno2d:
         in_channels: 1
         out_channels: 1
