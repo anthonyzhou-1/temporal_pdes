@@ -41,12 +41,9 @@ class TrainModule(L.LightningModule):
         self.criterion = ScaledLpLoss()
         self.correlation_criterion = PearsonCorrelationScore(reduce_batch=True)
 
-        if self.train_mode == "pushforward":
-            self.pushforward_steps = modelconfig["pushforward_steps"]
-            self.warmup_epochs = modelconfig["warmup_epochs"] # Let model train w/o pf for a few epochs. PF can be very noisy in the beginning
-        else:
-            self.pushforward_steps = 0
-            self.warmup_epochs = 999 # Basically always in warmup (no pf)
+        self.pushforward_steps = modelconfig["pushforward_steps"] if "pushforward_steps" in modelconfig else 0
+        # Let model train w/o pf for a few epochs. PF can be very noisy in the beginning
+        self.warmup_epochs = modelconfig["warmup_epochs"] if "warmup_epochs" in modelconfig else 999
 
         if self.model_name == "fno":
             fnoconfig = modelconfig["fno"]
@@ -64,6 +61,7 @@ class TrainModule(L.LightningModule):
             raise ValueError("Model not found")
 
         print(f"Training: {self.model_name}, with train_mode: {self.train_mode}, and inference_mode: {self.inference_mode}")
+        print(f"Pushforward steps: {self.pushforward_steps}, k: {self.k}, dt_jump: {self.dt_jump}, warmup_epochs: {self.warmup_epochs}")
 
     def forward(self, u, t=None, cond=None):
         return self.model(u, t, cond)
