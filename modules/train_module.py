@@ -234,6 +234,7 @@ class TrainModule(L.LightningModule):
         cond = batch['cond'] # shape (b,) or (b, n_cond) depending on dimensionality of condition
 
         data, labels = self.get_data_labels(u, t_idx, dt, mode=self.train_mode) # slice data and labels with t_idx
+        pred_cache = None
 
         if self.current_epoch > self.warmup_epochs:
             with torch.no_grad():
@@ -242,10 +243,26 @@ class TrainModule(L.LightningModule):
                     _, labels = self.get_data_labels(u, t_idx, dt, mode=self.train_mode) # label is at t_idx+2
 
                     # data, t are all at t_idx
-                    data = self.model(data, t, cond) 
+                    pred = self.model(data, t, cond) 
+
+                    if self.inference_mode == "heun":
+                        tplus1 = t + dt # get time at t+1
+                    elif self.inference_mode == "rk4":
+                        tplus2 = t + dt
+                        tplus1 = t + dt/2
 
                     # data, t are incremented to t_idx+1
+                    data = self.inference_step(data,
+                                            pred,
+                                            dt,
+                                            mode=self.inference_mode,
+                                            pred_cache=pred_cache,
+                                            tplus1=tplus1,
+                                            tplus2=tplus2,
+                                            cond=cond) # shape (b, nx, 1)
                     t = self.get_time(batch, t_idx) # get time at t_idx + 1
+
+                    pred_cache = pred # cache prediction for adams_bashforth
 
         target = self.model(data, t, cond) # shape (b, nx, 1) or (b, nx, ny, 1)
             
@@ -279,3 +296,4 @@ class TrainModule(L.LightningModule):
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.8)
 
         return [optimizer], [scheduler]
+    
