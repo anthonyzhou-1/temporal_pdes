@@ -42,6 +42,7 @@ class TrainModule(L.LightningModule):
         self.correlation_criterion = PearsonCorrelationScore(reduce_batch=True)
 
         self.pushforward_steps = modelconfig["pushforward_steps"] if "pushforward_steps" in modelconfig else 0
+        self.pushforward_grad = modelconfig["pushforward_grad"] if "pushforward_grad" in modelconfig else False
         # Let model train w/o pf for a few epochs. PF can be very noisy in the beginning
         self.warmup_epochs = modelconfig["warmup_epochs"] if "warmup_epochs" in modelconfig else 999
 
@@ -61,7 +62,7 @@ class TrainModule(L.LightningModule):
             raise ValueError("Model not found")
 
         print(f"Training: {self.model_name}, with train_mode: {self.train_mode}, and inference_mode: {self.inference_mode}")
-        print(f"Pushforward steps: {self.pushforward_steps}, k: {self.k}, dt_jump: {self.dt_jump}, warmup_epochs: {self.warmup_epochs}")
+        print(f"Pushforward steps: {self.pushforward_steps}, k: {self.k}, dt_jump: {self.dt_jump}, warmup_epochs: {self.warmup_epochs}, pushforward_grad: {self.pushforward_grad}")
 
     def forward(self, u, t=None, cond=None):
         return self.model(u, t, cond)
@@ -237,7 +238,7 @@ class TrainModule(L.LightningModule):
         pred_cache = None
 
         if self.current_epoch > self.warmup_epochs:
-            with torch.no_grad():
+            with torch.set_grad_enabled(self.pushforward_grad): # if pushforward_grad is false, don't calculate grads through intermediate steps
                 for i in range(self.pushforward_steps):
                     t_idx = t_idx + 1 # increment time idx
                     _, labels = self.get_data_labels(u, t_idx, dt, mode=self.train_mode) # label is at t_idx+2
