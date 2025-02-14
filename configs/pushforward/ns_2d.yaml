@@ -5,7 +5,7 @@ model:
     model_name: unet2d
     lr: 1.0e-5
     pushforward_steps: 1
-    pushforward_grad: True
+    pushforward_grad: False
     warmup_epochs: 5
     fno2d:
         in_channels: 1
