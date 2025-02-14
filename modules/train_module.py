@@ -236,6 +236,8 @@ class TrainModule(L.LightningModule):
 
         data, labels = self.get_data_labels(u, t_idx, dt, mode=self.train_mode) # slice data and labels with t_idx
         pred_cache = None
+        tplus1 = None
+        tplus2 = None
 
         if self.current_epoch > self.warmup_epochs:
             with torch.set_grad_enabled(self.pushforward_grad): # if pushforward_grad is false, don't calculate grads through intermediate steps
