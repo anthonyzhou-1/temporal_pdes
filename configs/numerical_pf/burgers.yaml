@@ -35,8 +35,8 @@ model:
 
 data:
     dataset:
-        train_path: /home/ayz2/data_gen_old/pde-context/2D/train/NEW_Burgers_1024.h5
-        valid_path: /home/ayz2/data_gen_old/pde-context/2D/valid/NEW_Burgers_256.h5
+        train_path: /home/ayz2/data/pde-context/2D/train/NEW_Burgers_1024.h5
+        valid_path: /home/ayz2/data/pde-context/2D/valid/NEW_Burgers_256.h5
         pde: burgers_2d
         resolution: [100, 64, 64]
     num_workers: 16
