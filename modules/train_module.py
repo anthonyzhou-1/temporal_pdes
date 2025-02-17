@@ -224,7 +224,7 @@ class TrainModule(L.LightningModule):
 
         return accumulated_loss, correlation_time, u, u_pred
     
-    def training_step(self, batch, batch_idx):
+    def training_step(self, batch, batch_idx, eval=False):
         u = batch['u']
         dt = batch['dt'][0] # assume constant dt across samples in batch
         b = u.shape[0]
@@ -270,6 +270,9 @@ class TrainModule(L.LightningModule):
         target = self.model(data, t, cond) # shape (b, nx, 1) or (b, nx, ny, 1)
             
         loss = self.criterion(target, labels)
+
+        if eval:
+            return loss # for testing; calculate next-step loss
 
         self.log("train_loss", loss, on_step=False, on_epoch=True)
 
