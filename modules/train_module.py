@@ -272,7 +272,7 @@ class TrainModule(L.LightningModule):
         loss = self.criterion(target, labels)
 
         if eval:
-            return loss # for testing; calculate next-step loss
+            return loss, data, labels, target # for testing; calculate next-step loss and debug
 
         self.log("train_loss", loss, on_step=False, on_epoch=True)
 
