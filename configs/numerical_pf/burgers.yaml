@@ -12,10 +12,10 @@ model:
         out_channels: 1
         modes1: 12
         modes2: 12
-        width: 48
-        cond_channels: 48
+        width: 32
+        cond_channels: 32
         cond_dim: 3
-        num_layers: 5
+        num_layers: 4
         time_scale: 10.0
         cond_scale: 10.0
     unet2d:
