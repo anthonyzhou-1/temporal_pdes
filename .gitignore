@@ -6,3 +6,5 @@ __pycache__/
 **/assets
 **.txt
 **.sh
+timer.py 
+timer2.py
